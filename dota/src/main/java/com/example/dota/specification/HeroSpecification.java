@@ -12,6 +12,8 @@ public class HeroSpecification {
 
     private static final String ID = "id";
     private static final String NAMEHERO = "nameHero";
+    private static final String NICKNAMEHERO = "nickNameHero";
+
 
     public static Specification<HeroEntity> isNotNullId(){
         return  new Specification<HeroEntity>() {
@@ -36,6 +38,15 @@ public class HeroSpecification {
             @Override
             public Predicate toPredicate(Root<HeroEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get(NAMEHERO), nameHero);
+            }
+        };
+    }
+
+    public static Specification<HeroEntity> equalNickNameHero(String filter){
+        return new Specification<HeroEntity>() {
+            @Override
+            public Predicate toPredicate(Root<HeroEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get(NICKNAMEHERO), filter);
             }
         };
     }

@@ -63,6 +63,7 @@ public class HeroService {
 
             specification = (filter.getId() == null) ? specification : specification.and(HeroSpecification.equalId(filter.getId()));
             specification = (filter.getNameHero() == null) ? specification : specification.and(HeroSpecification.equalNameHero(filter.getNameHero()));
+            specification = (filter.getNickNameHero() == null) ? specification : specification.and(HeroSpecification.equalNickNameHero(filter.getNickNameHero()));
             return specification;
         }else{
             return null;
