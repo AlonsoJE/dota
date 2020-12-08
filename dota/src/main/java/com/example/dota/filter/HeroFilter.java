@@ -1,5 +1,7 @@
 package com.example.dota.filter;
 
+import com.example.dota.enums.ClassTypeEnum;
+import com.example.dota.enums.FigthTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +18,14 @@ public class HeroFilter {
     private String nameHero;
     private String nickNameHero;
     private String realName;
-    private String figthType;
-    private String classType;
+    private FigthTypeEnum figthTypeEnum;
+    private ClassTypeEnum classTypeEnum;
     private String createUser;
     private LocalDate createDate;
+    private LocalDate createDateI;
+    private LocalDate createDateF;
+    private LocalDate updateDateI;
+    private LocalDate updateDateF;
     private String updateUser;
     private LocalDate updateDate;
 
