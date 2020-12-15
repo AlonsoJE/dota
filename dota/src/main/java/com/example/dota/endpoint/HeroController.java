@@ -8,12 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/hero")
 public class HeroController {
 
     UriBuilder uriBuilder;
@@ -44,7 +46,8 @@ public class HeroController {
 
     @PostMapping({"",""})
     public ResponseEntity<Object> save(@Validated @RequestBody HeroEntity heroEntity){
-        return  ResponseEntity.ok(heroService.post(heroEntity));
+
+        return  ResponseEntity.created(URI.create("")).body(heroService.post(heroEntity));
     }
 
 
