@@ -22,3 +22,12 @@ spring:
           dialect: org.hibernate.dialect.MySQL5Dialect
 server:
   port: 8090
+var:
+  exception:
+    notFound: "Recurso solicitado pelo client não foi localizado."
+    badRequest: "Solicitação Client inválida."
+    unauthorized: "Não Autorizado."
+    forbidden: "Permissão insuficiente para acessar o solicitado."
+    unsupportedMediaType: "Tipo de media não suportado."
+    tooManyRequests: "Muitas requisições amigo, não aguentei."
+    internalServerError: "Se chegou aqui é porque fudeu."

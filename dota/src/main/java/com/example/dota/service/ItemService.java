@@ -1,19 +1,13 @@
 package com.example.dota.service;
 
-import com.example.dota.entity.HeroEntity;
 import com.example.dota.entity.ItemEntity;
-import com.example.dota.exceptions.NotFoundException;
 import com.example.dota.filter.ItemFilter;
 import com.example.dota.repository.ItemRepository;
-import com.example.dota.specification.HeroSpecification;
 import com.example.dota.specification.ItemSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.naming.event.ObjectChangeListener;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -49,10 +43,10 @@ public class ItemService {
 
         Object object = itemRepository.findById(id);
 
-        if(object != Optional.empty()){
-            return object;
+        if(object == null || object == Optional.empty()){
+            return null;
         }else{
-            throw  new NotFoundException("Registro não encontrado");
+            return object;
         }
 
     }

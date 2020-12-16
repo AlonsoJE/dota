@@ -1,6 +1,7 @@
 package com.example.dota.endpoint;
 
 import com.example.dota.entity.HeroEntity;
+import com.example.dota.exception.BadRequestException;
 import com.example.dota.filter.HeroFilter;
 import com.example.dota.service.HeroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
@@ -39,6 +39,8 @@ public class HeroController {
     @GetMapping({"filter","/filter"})
     public ResponseEntity<Object> findByFilter(@RequestBody HeroFilter heroFilter){
 
+        verifyFilter(heroFilter);
+
         List<Object> filtered = heroService.findByFilter(heroFilter);
 
         return ResponseEntity.status(HttpStatus.OK).body(filtered);
@@ -49,7 +51,6 @@ public class HeroController {
 
         return  ResponseEntity.created(URI.create("")).body(heroService.post(heroEntity));
     }
-
 
     @PutMapping({"{id}","/{id}"})
     public  ResponseEntity<Object> update(@Validated @PathVariable(name = "id") Long id, @RequestBody HeroEntity heroEntity){
@@ -66,5 +67,11 @@ public class HeroController {
     public ResponseEntity deleteObject(@RequestBody HeroEntity heroEntity){
         heroService.deleteByObject(heroEntity);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    private void verifyFilter(@RequestBody HeroFilter heroFilter) {
+        if(heroFilter == null || heroFilter.equals(null)){
+            throw  new BadRequestException();
+        }
     }
 }

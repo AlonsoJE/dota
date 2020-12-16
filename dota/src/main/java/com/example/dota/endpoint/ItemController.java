@@ -1,6 +1,7 @@
 package com.example.dota.endpoint;
 
 import com.example.dota.entity.ItemEntity;
+import com.example.dota.exception.ResourceNotFoundException;
 import com.example.dota.filter.ItemFilter;
 import com.example.dota.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.http.ResponseEntity.status;
 
 @RestController
@@ -30,25 +30,18 @@ public class ItemController {
     }
 
     @GetMapping({"{id}","/{id}"})
-    public ResponseEntity<Object> findById(@PathVariable(name = "id") Long  id){
+    public ResponseEntity<?> findById(@PathVariable(name = "id") Long  id){
 
+        verifyId(id);
 
-        try {
-            Object object = itemService.findById(id);
-
-        }catch (RuntimeException e){
-            return ;
-        }
-            return ResponseEntity.status(HttpStatus.OK).body(object);
-
-//     return (object != Optional.empty()) ? ResponseEntity.status(HttpStatus.OK).body(object) : ResponseEntity.status(HttpStatus.NOT_FOUND).body();
-
+        return ResponseEntity.status(200).body(itemService.findById(id));
     }
+
 
     @GetMapping({"filter","/filter"})
     public ResponseEntity<Object> findByFilter(@RequestBody ItemFilter filter){
 
-        List<Object> filtered = itemService.findByFilter(filter);
+        List<?> filtered = itemService.findByFilter(filter);
 
         return status(HttpStatus.OK).body(filtered);
     }
@@ -62,11 +55,13 @@ public class ItemController {
 
     @PutMapping({"{id}","/{id}"})
     public  ResponseEntity<Object> update(@Validated @PathVariable(name = "id") Long id, @RequestBody ItemEntity itemEntity){
+        verifyId(id);
         return status(HttpStatus.OK).body(itemService.update(id, itemEntity));
     }
 
     @DeleteMapping({"{id}","/{id}"})
     public ResponseEntity delete(@PathVariable(name = "id") Long id){
+        verifyId(id);
         itemService.delete(id);
         return   status(HttpStatus.OK).build();
     }
@@ -77,5 +72,13 @@ public class ItemController {
         return status(HttpStatus.OK).build();
     }
 
+
+    private void verifyId(@PathVariable(name = "id") Long id) {
+        Object result = itemService.findById(id);
+
+        if(result == null){
+            throw  new ResourceNotFoundException();
+        }
+    }
 
 }
