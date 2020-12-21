@@ -8,6 +8,7 @@ public class DotaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DotaApplication.class, args);
-    }
 
+
+    }
 }

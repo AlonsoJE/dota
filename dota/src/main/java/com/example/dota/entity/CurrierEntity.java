@@ -1,61 +1,33 @@
 package com.example.dota.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "item")
+@Table(name = "currier")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class ItemEntity {
+public class CurrierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = false)
     private Long id;
 
-    @Column(name = "name_item",nullable = false, length = 100)
+    @Column(name = "name",nullable = false, length = 100)
     @NotNull(message = "Nome não pode ser nulo!")
     @NotEmpty(message = "Nome não pode ser vazio!")
     @Size(min = 3, max = 100, message = "O 'nome' deve ter no mínimo {min} e no máximo {max} caracteres!")
-    private String nameItem;
-
-    @Column(name = "about", length = 100)
-    private String about;
-
-    @Column(name = "price", nullable = false)
-    private BigDecimal price = BigDecimal.ZERO;
-
-    @Column(name = "cooldown")
-    private Double cooldown;
-
-    @Column(name = "action_item", length = 100)
-    private String actionItem;
-
-    @Column(name = "move_speed")
-    private Integer moveSpeed;
-
-    @Column(name = "damage")
-    private Integer damage;
-
-    @Column(name = "inteligence")
-    private Integer inteligence;
-
-    @Column(name = "strenght")
-    private Integer strenght;
-
-    @Column(name = "agility")
-    private Integer agility;
+    private String name;
 
     @Column(name = "create_user",nullable = false, insertable = true, updatable = false, length = 100)
     private String createUser;
@@ -69,7 +41,8 @@ public class ItemEntity {
     @Column(name = "update_date", nullable = true, insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @ManyToMany(mappedBy = "item")
-    private List<HeroEntity> hero;
+    @OneToOne(mappedBy = "currier",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @JsonIgnoreProperties("currier")
+    private HeroEntity hero;
 
 }

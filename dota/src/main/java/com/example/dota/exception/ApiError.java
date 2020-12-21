@@ -14,9 +14,10 @@ public class ApiError {
     private int status;
     private LocalDateTime timestamp;
     private String exception;
-    private String cause;
+//    private String cause;
     private String devMessage;
     private String userMessage;
+//    private String defaultMessage;
 
 
 }

@@ -2,13 +2,16 @@ package com.example.dota.entity;
 
 import com.example.dota.enums.ClassTypeEnum;
 import com.example.dota.enums.FigthTypeEnum;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "heroes")
@@ -21,7 +24,7 @@ public class HeroEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = false)
     private Long id;
 
     @Column(name = "name_hero", nullable = false, length = 100)
@@ -44,7 +47,7 @@ public class HeroEntity {
     @Column(name = "create_user", nullable = false, insertable = true, updatable = false)
     private String createUser;
 
-    @Column(name = "update_user", nullable = false, insertable = false, updatable = true)
+    @Column(name = "update_user", insertable = false, updatable = true)
     private String updateUser;
 
     @Column(name = "create_date", insertable = true,updatable = false)
@@ -52,6 +55,19 @@ public class HeroEntity {
 
     @Column(name = "update_date", insertable = false, updatable = true)
     private LocalDate updateDate;
+
+    @OneToOne()
+    @JoinColumn(name = "currier_id")
+    @JsonIgnoreProperties("hero")
+    private CurrierEntity currier;
+
+    @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("hero")
+    private List<SkinEntity> skins;
+
+    @ManyToMany
+    @JoinTable(name = "hero_item", uniqueConstraints = @UniqueConstraint(columnNames = {"hero_id","item_id"}),joinColumns = @JoinColumn(name = "hero_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private List<ItemEntity> item;
 
 
 }
