@@ -57,12 +57,12 @@ public class HeroEntity {
     private LocalDate updateDate;
 
     @OneToOne()
-    @JoinColumn(name = "currier_id")
-    @JsonIgnoreProperties("hero")
+    @JoinColumn(name = "currier_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CURRIER_HERO"))
+    @JsonBackReference
     private CurrierEntity currier;
 
-    @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("hero")
+    @OneToMany(mappedBy = "hero", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<SkinEntity> skins;
 
     @ManyToMany

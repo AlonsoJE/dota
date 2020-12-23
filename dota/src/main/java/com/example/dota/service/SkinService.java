@@ -1,7 +1,9 @@
 package com.example.dota.service;
 
+import com.example.dota.converter.SkinConverter;
 import com.example.dota.entity.SkinEntity;
 import com.example.dota.repository.SkinRepository;
+import com.example.dota.resource.SkinResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,15 @@ public class SkinService {
     @Autowired
     private SkinRepository skinRepository;
 
+    private SkinConverter converter = new SkinConverter();
+
     public List<?> findAll(){
-        return skinRepository.findAll();
+        return converter.listToDto(skinRepository.findAll());
     }
 
-    public Object post(SkinEntity skinEntity) {
+    public Object post(SkinResource resource) {
 
-        return skinRepository.save(skinEntity);
+        return converter.toDto(skinRepository.save(converter.toEntity(resource)));
 
     }
 

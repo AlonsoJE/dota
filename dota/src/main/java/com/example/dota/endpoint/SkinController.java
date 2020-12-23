@@ -1,6 +1,7 @@
 package com.example.dota.endpoint;
 
 import com.example.dota.entity.SkinEntity;
+import com.example.dota.resource.SkinResource;
 import com.example.dota.service.SkinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,9 +46,9 @@ public class SkinController {
 //    }
 
     @PostMapping({"",""})
-    public ResponseEntity<?> save(@Validated @RequestBody SkinEntity skinEntity){
+    public ResponseEntity<?> save(@Validated @RequestBody SkinResource resource){
 
-        return  ResponseEntity.created(URI.create("")).body(skinService.post(skinEntity));
+        return  ResponseEntity.created(URI.create("")).body(skinService.post(resource));
     }
 
     @PutMapping({"{id}","/{id}"})

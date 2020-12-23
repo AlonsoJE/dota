@@ -41,8 +41,8 @@ public class CurrierEntity {
     @Column(name = "update_date", nullable = true, insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @OneToOne(mappedBy = "currier",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    @JsonIgnoreProperties("currier")
+    @OneToOne(mappedBy = "currier",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonBackReference
     private HeroEntity hero;
 
 }

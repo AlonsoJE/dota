@@ -1,9 +1,7 @@
 package com.example.dota.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -45,8 +43,8 @@ public class SkinEntity {
     private LocalDate updateDate;
 
     @ManyToOne
-    @JoinColumn(name = "hero_id")
-    @JsonIgnoreProperties("skins")
+    @JoinColumn(name = "hero_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_HERO_SKIN"))
+    @JsonBackReference
     private HeroEntity hero;
 
 

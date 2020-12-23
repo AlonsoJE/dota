@@ -30,9 +30,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.3.4.RELEASE'
 	compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.5.Final'
-
-
-
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 }
 
 test {

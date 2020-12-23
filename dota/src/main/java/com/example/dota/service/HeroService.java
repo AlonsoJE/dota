@@ -1,8 +1,10 @@
 package com.example.dota.service;
 
+import com.example.dota.converter.HeroConverter;
 import com.example.dota.entity.HeroEntity;
 import com.example.dota.filter.HeroFilter;
 import com.example.dota.repository.HeroRepository;
+import com.example.dota.resource.HeroResource;
 import com.example.dota.specification.HeroSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,13 +20,15 @@ public class HeroService {
     @Autowired
     private HeroRepository heroRepository;
 
-    public List<HeroEntity> findAll(){
-        return heroRepository.findAll();
+    private HeroConverter heroConverter = new HeroConverter();
+
+    public List<?> findAll(){
+        return heroConverter.listToDto(heroRepository.findAll());
     }
 
-    public Object post(HeroEntity heroEntity) {
+    public Object post(HeroResource resource) {
 
-        return heroRepository.save(heroEntity);
+        return heroConverter.toDto(heroRepository.save(heroConverter.toEntity(resource)));
 
     }
 

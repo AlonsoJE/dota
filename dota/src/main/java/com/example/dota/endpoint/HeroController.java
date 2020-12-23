@@ -3,6 +3,7 @@ package com.example.dota.endpoint;
 import com.example.dota.entity.HeroEntity;
 import com.example.dota.exception.BadRequestException;
 import com.example.dota.filter.HeroFilter;
+import com.example.dota.resource.HeroResource;
 import com.example.dota.service.HeroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,36 +25,36 @@ public class HeroController {
     private HeroService heroService;
 
     @GetMapping({"","/"})
-    public ResponseEntity<List<HeroEntity>> findAll(){
+    public ResponseEntity<List<?>> findAll(){
 
-        List<HeroEntity> find = heroService.findAll();
+        List<?> find = heroService.findAll();
 
         return ResponseEntity.ok(find);
     }
 
     @GetMapping({"{id}","/{id}"})
-    public ResponseEntity<Object> findById(@PathVariable(name = "id") Long  id){
+    public ResponseEntity<?> findById(@PathVariable(name = "id") Long  id){
         return  ResponseEntity.status(HttpStatus.OK).body(heroService.findById(id));
     }
 
     @GetMapping({"filter","/filter"})
-    public ResponseEntity<Object> findByFilter(@RequestBody HeroFilter heroFilter){
+    public ResponseEntity<?> findByFilter(@RequestBody HeroFilter heroFilter){
 
         verifyFilter(heroFilter);
 
-        List<Object> filtered = heroService.findByFilter(heroFilter);
+        List<?> filtered = heroService.findByFilter(heroFilter);
 
         return ResponseEntity.status(HttpStatus.OK).body(filtered);
     }
 
     @PostMapping({"",""})
-    public ResponseEntity<Object> save(@Validated @RequestBody HeroEntity heroEntity){
+    public ResponseEntity<?> save(@Validated @RequestBody HeroResource resource){
 
-        return  ResponseEntity.created(URI.create("")).body(heroService.post(heroEntity));
+        return  ResponseEntity.created(URI.create("")).body(heroService.post(resource));
     }
 
     @PutMapping({"{id}","/{id}"})
-    public  ResponseEntity<Object> update(@Validated @PathVariable(name = "id") Long id, @RequestBody HeroEntity heroEntity){
+    public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody HeroEntity heroEntity){
         return ResponseEntity.status(HttpStatus.OK).body(heroService.update(id, heroEntity));
     }
 
