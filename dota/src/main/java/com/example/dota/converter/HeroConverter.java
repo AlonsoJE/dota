@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class HeroConverter {
 
@@ -40,5 +41,13 @@ public class HeroConverter {
             list.add(toDto(a));
         });
         return list;
+    }
+
+    public Object toDto(final Optional<HeroEntity> optional){
+        return optional.isPresent() ? toDto(optional.get()) : null;
+    }
+
+    public Optional<?> toOptionalDto(final Optional<HeroEntity> optional){
+        return Optional.ofNullable(toDto(optional));
     }
 }

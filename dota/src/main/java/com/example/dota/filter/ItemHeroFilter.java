@@ -9,10 +9,9 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrierFilter {
+public class ItemHeroFilter {
 
     private Long id;
-    private String name;
     private String createUser;
     private LocalDate createDate;
     private LocalDate createDateI;

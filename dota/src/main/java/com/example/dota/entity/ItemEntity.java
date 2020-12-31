@@ -1,5 +1,6 @@
 package com.example.dota.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -69,7 +70,7 @@ public class ItemEntity {
     @Column(name = "update_date", nullable = true, insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @ManyToMany(mappedBy = "item")
-    private List<HeroEntity> hero;
+    @OneToMany(mappedBy = "itemEntity", targetEntity = ItemHero.class, fetch = FetchType.LAZY)
+    private List<ItemHero> itemHeroes;
 
 }

@@ -1,28 +1,32 @@
 package com.example.dota.resource;
 
-import com.example.dota.entity.HeroEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class SkinResource {
-
+public class ItemResource {
 
     private Long id;
-    private String name;
+    private String nameItem;
+    private String about;
     private BigDecimal price = BigDecimal.ZERO;
-    private String style;
+    private Double cooldown;
+    private String actionItem;
+    private Integer moveSpeed;
+    private Integer damage;
+    private Integer inteligence;
+    private Integer strenght;
+    private Integer agility;
     private String createUser;
     private LocalDate createDate;
     private String updateUser;
     private LocalDate updateDate;
-    private HeroEntity hero;
-
+    private List<ItemHeroResource> itemHeroResources;
 }

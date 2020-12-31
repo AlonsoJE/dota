@@ -1,37 +1,24 @@
 package com.example.dota.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "skin")
+@Table(name = "item_hero")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class SkinEntity {
+public class ItemHero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
-
-    @Column(name = "name", insertable = true, updatable = true, nullable = false, unique = true, length = 100)
-    private String name;
-
-    @Column(name = "price")
-    private BigDecimal price = BigDecimal.ZERO;
-
-    @Column(name = "style", nullable = false, unique = false, length = 100)
-    private String style;
 
     @Column(name = "create_user",nullable = false, insertable = true, updatable = false, length = 100)
     private String createUser;
@@ -45,12 +32,13 @@ public class SkinEntity {
     @Column(name = "update_date", nullable = true, insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @JsonIgnore
     @ManyToOne(targetEntity = HeroEntity.class)
-    @JoinColumn(name = "hero_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_HERO_SKIN"))
-    private HeroEntity hero;
+    @JoinColumn(name = "hero_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_HERO_ITEMHERO"))
+    @JsonBackReference
+    private HeroEntity heroEntity;
 
-
-
-
+    @ManyToOne(targetEntity = ItemEntity.class)
+    @JoinColumn(name = "item_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_ITEM_ITEMHERO"))
+    @JsonBackReference
+    private ItemEntity itemEntity;
 }

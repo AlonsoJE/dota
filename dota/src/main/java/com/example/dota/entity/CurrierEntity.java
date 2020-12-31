@@ -1,6 +1,9 @@
 package com.example.dota.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,8 +44,8 @@ public class CurrierEntity {
     @Column(name = "update_date", nullable = true, insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @OneToOne(mappedBy = "currier",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonBackReference
+    @JsonIgnore
+    @OneToOne(mappedBy = "currier",  cascade = CascadeType.ALL,targetEntity = HeroEntity.class, fetch = FetchType.LAZY)
     private HeroEntity hero;
 
 }

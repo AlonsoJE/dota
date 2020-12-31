@@ -1,8 +1,9 @@
 package com.example.dota.endpoint;
 
-import com.example.dota.entity.ItemEntity;
+import com.example.dota.converter.ItemConverter;
 import com.example.dota.exception.ResourceNotFoundException;
 import com.example.dota.filter.ItemFilter;
+import com.example.dota.resource.ItemResource;
 import com.example.dota.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,10 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
+    private ItemConverter converter = new ItemConverter();
+
     @GetMapping({"","/"})
-    public ResponseEntity<Object> findAll(){
+    public ResponseEntity<?> findAll(){
 
         return status(HttpStatus.OK).body(itemService.findAll());
 
@@ -39,7 +42,7 @@ public class ItemController {
 
 
     @GetMapping({"filter","/filter"})
-    public ResponseEntity<Object> findByFilter(@RequestBody ItemFilter filter){
+    public ResponseEntity<?> findByFilter(@RequestBody ItemFilter filter){
 
         List<?> filtered = itemService.findByFilter(filter);
 
@@ -47,16 +50,16 @@ public class ItemController {
     }
 
     @PostMapping({"",""})
-    public ResponseEntity<Object> save(@Validated @RequestBody ItemEntity itemEntity){
+    public ResponseEntity<?> save(@Validated @RequestBody ItemResource resource){
 
-        return  ResponseEntity.created(URI.create("")).body(itemService.post(itemEntity));
+        return  ResponseEntity.created(URI.create("")).body(itemService.post(resource));
     }
 
 
     @PutMapping({"{id}","/{id}"})
-    public  ResponseEntity<Object> update(@Validated @PathVariable(name = "id") Long id, @RequestBody ItemEntity itemEntity){
+    public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody ItemResource resource){
         verifyId(id);
-        return status(HttpStatus.OK).body(itemService.update(id, itemEntity));
+        return status(HttpStatus.OK).body(itemService.update(id, resource));
     }
 
     @DeleteMapping({"{id}","/{id}"})
@@ -67,8 +70,8 @@ public class ItemController {
     }
 
     @DeleteMapping({"","/"})
-    public ResponseEntity deleteObject(@RequestBody ItemEntity itemEntity){
-        itemService.deleteByObject(itemEntity);
+    public ResponseEntity deleteObject(@RequestBody ItemResource resource){
+        itemService.deleteByObject(resource);
         return status(HttpStatus.OK).build();
     }
 

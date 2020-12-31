@@ -7,7 +7,6 @@ import com.example.dota.repository.HeroRepository;
 import com.example.dota.resource.HeroResource;
 import com.example.dota.specification.HeroSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +31,13 @@ public class HeroService {
 
     }
 
-    public Object update(Long id, HeroEntity heroEntity) {
+    public Object update(Long id, HeroResource resource) {
 
         heroRepository.findById(id);
 
-        heroEntity.setId(id);
+        resource.setId(id);
 
-        return  heroRepository.save(heroEntity);
+        return  heroConverter.toDto(heroRepository.save(heroConverter.toEntity(resource)));
 
     }
 
@@ -53,11 +52,11 @@ public class HeroService {
         heroRepository.deleteById(id);
     }
 
-    public void deleteByObject(HeroEntity heroEntity) {
-        heroRepository.delete(heroEntity);
+    public void deleteByObject(HeroResource resource) {
+        heroRepository.delete(heroConverter.toEntity(resource));
     }
 
-    public List<Object> findByFilter(HeroFilter heroFilter) {
+    public List<?> findByFilter(HeroFilter heroFilter) {
         return Collections.singletonList(heroRepository.findAll(getSpecification(heroFilter)));
     }
 
@@ -70,6 +69,7 @@ public class HeroService {
             specification = (filter.getNickNameHero() == null) ? specification : specification.and(HeroSpecification.likelNickNameHero(filter.getNickNameHero()));
             specification = (filter.getRealName() == null) ? specification : specification.and(HeroSpecification.likeRealNameHero(filter.getRealName()));
             specification = (filter.getCreateUser() == null) ? specification : specification.and(HeroSpecification.likeCreateUser(filter.getCreateUser()));
+            specification = (filter.getUpdateUser() == null) ? specification : specification.and(HeroSpecification.likeUpdateUser(filter.getUpdateUser()));
             specification = (filter.getClassTypeEnum() == null) ? specification : specification.and(HeroSpecification.equalClassType(filter.getClassTypeEnum()));
             specification = (filter.getFigthTypeEnum() == null) ? specification : specification.and(HeroSpecification.equalFigthType(filter.getFigthTypeEnum()));
 

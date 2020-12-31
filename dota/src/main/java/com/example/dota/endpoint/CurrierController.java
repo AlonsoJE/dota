@@ -1,8 +1,8 @@
 package com.example.dota.endpoint;
 
-import com.example.dota.entity.CurrierEntity;
 import com.example.dota.exception.BadRequestException;
-import com.example.dota.filter.HeroFilter;
+import com.example.dota.filter.CurrierFilter;
+import com.example.dota.resource.CurrierResource;
 import com.example.dota.service.CurrierserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,29 +32,29 @@ public class CurrierController {
     }
 
     @GetMapping({"{id}","/{id}"})
-    public ResponseEntity<Object> findById(@PathVariable(name = "id") Long  id){
+    public ResponseEntity<?> findById(@PathVariable(name = "id") Long  id){
         return  ResponseEntity.status(HttpStatus.OK).body(currierserService.findById(id));
     }
 
-//    @GetMapping({"filter","/filter"})
-//    public ResponseEntity<Object> findByFilter(@RequestBody HeroFilter heroFilter){
-//
-//        verifyFilter(heroFilter);
-//
-//        List<Object> filtered = currierserService.findByFilter(heroFilter);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(filtered);
-//    }
+    @GetMapping({"filter","/filter"})
+    public ResponseEntity<Object> findByFilter(@RequestBody CurrierFilter filter){
+
+        verifyFilter(filter);
+
+        List<?> filtered = currierserService.findByFilter(filter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(filtered);
+    }
 
     @PostMapping({"",""})
-    public ResponseEntity<Object> save(@Validated @RequestBody CurrierEntity currierEntity){
+    public ResponseEntity<?> save(@Validated @RequestBody CurrierResource resource){
 
-        return  ResponseEntity.created(URI.create("")).body(currierserService.post(currierEntity));
+        return  ResponseEntity.created(URI.create("")).body(currierserService.post(resource));
     }
 
     @PutMapping({"{id}","/{id}"})
-    public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody CurrierEntity currierEntity){
-        return ResponseEntity.status(HttpStatus.OK).body(currierserService.update(id, currierEntity));
+    public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody CurrierResource resource){
+        return ResponseEntity.status(HttpStatus.OK).body(currierserService.update(id, resource));
     }
 
     @DeleteMapping({"{id}","/{id}"})
@@ -64,13 +64,13 @@ public class CurrierController {
     }
 
     @DeleteMapping({"","/"})
-    public ResponseEntity deleteObject(@RequestBody CurrierEntity currierEntity){
-        currierserService.deleteByObject(currierEntity);
+    public ResponseEntity deleteObject(@RequestBody CurrierResource resource){
+        currierserService.deleteByObject(resource);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    private void verifyFilter(@RequestBody HeroFilter heroFilter) {
-        if(heroFilter == null || heroFilter.equals(null)){
+    private void verifyFilter(@RequestBody CurrierFilter filter) {
+        if(filter == null || filter.equals(null)){
             throw  new BadRequestException();
         }
     }

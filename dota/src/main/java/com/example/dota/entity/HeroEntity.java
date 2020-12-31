@@ -2,12 +2,11 @@ package com.example.dota.entity;
 
 import com.example.dota.enums.ClassTypeEnum;
 import com.example.dota.enums.FigthTypeEnum;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -56,18 +55,18 @@ public class HeroEntity {
     @Column(name = "update_date", insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @OneToOne()
+    @JsonIgnore
+    @OneToOne(targetEntity = CurrierEntity.class)
     @JoinColumn(name = "currier_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CURRIER_HERO"))
-    @JsonBackReference
     private CurrierEntity currier;
 
-    @OneToMany(mappedBy = "hero", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL,targetEntity = SkinEntity.class,fetch = FetchType.LAZY)
     private List<SkinEntity> skins;
 
-    @ManyToMany
-    @JoinTable(name = "hero_item", uniqueConstraints = @UniqueConstraint(columnNames = {"hero_id","item_id"}),joinColumns = @JoinColumn(name = "hero_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private List<ItemEntity> item;
+    @JsonIgnore
+    @OneToMany(mappedBy = "heroEntity", targetEntity = ItemHero.class, cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    private List<ItemHero> itemHeroes;
 
 
 }

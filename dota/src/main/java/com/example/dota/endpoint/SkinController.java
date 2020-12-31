@@ -1,6 +1,7 @@
 package com.example.dota.endpoint;
 
-import com.example.dota.entity.SkinEntity;
+import com.example.dota.exception.BadRequestException;
+import com.example.dota.filter.SkinFilter;
 import com.example.dota.resource.SkinResource;
 import com.example.dota.service.SkinService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,15 @@ public class SkinController {
         return  ResponseEntity.status(HttpStatus.OK).body(skinService.findById(id));
     }
 
-//    @GetMapping({"filter","/filter"})
-//    public ResponseEntity<Object> findByFilter(@RequestBody HeroFilter heroFilter){
-//
-//        verifyFilter(heroFilter);
-//
-//        List<Object> filtered = currierserService.findByFilter(heroFilter);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(filtered);
-//    }
+    @GetMapping({"filter","/filter"})
+    public ResponseEntity<?> findByFilter(@RequestBody SkinFilter filter){
+
+        verifyFilter(filter);
+
+        List<?> filtered = skinService.findByFilter(filter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(filtered);
+    }
 
     @PostMapping({"",""})
     public ResponseEntity<?> save(@Validated @RequestBody SkinResource resource){
@@ -52,8 +53,8 @@ public class SkinController {
     }
 
     @PutMapping({"{id}","/{id}"})
-    public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody SkinEntity skinEntity){
-        return ResponseEntity.status(HttpStatus.OK).body(skinService.update(id, skinEntity));
+    public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody SkinResource resource){
+        return ResponseEntity.status(HttpStatus.OK).body(skinService.update(id, resource));
     }
 
     @DeleteMapping({"{id}","/{id}"})
@@ -63,19 +64,19 @@ public class SkinController {
     }
 
     @DeleteMapping({"","/"})
-    public ResponseEntity deleteObject(@RequestBody SkinEntity skinEntity){
-        skinService.deleteByObject(skinEntity);
+    public ResponseEntity deleteObject(@RequestBody SkinResource resource){
+        skinService.deleteByObject(resource);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-//
-//    private void verifyFilter(@RequestBody SkinFilter skinFilter) {
-//        if(skinFilter == null || skinFilter.equals(null)){
-//            throw  new BadRequestException();
-//        }
-//    }
 
-//}
-
+    private void verifyFilter(@RequestBody SkinFilter skinFilter) {
+        if(skinFilter == null || skinFilter.equals(null)){
+            throw  new BadRequestException();
+        }
+    }
 
 }
+
+
+

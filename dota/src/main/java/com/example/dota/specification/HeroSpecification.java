@@ -24,20 +24,20 @@ public class HeroSpecification {
     private static final String UPDATEDATE = "updateDate";
 
 
-    public static Specification<HeroEntity> isNotNullId(){
-        return  new Specification<HeroEntity>() {
-            @Override
-            public Predicate toPredicate(Root<HeroEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.isNotNull(root.get(ID));
-            }
-        };
-    }
-
     public static  Specification<HeroEntity> equalId(Long id){
         return new Specification<HeroEntity>() {
             @Override
             public Predicate toPredicate(Root<HeroEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get(ID), id);
+            }
+        };
+    }
+
+    public static Specification<HeroEntity> isNotNullId(){
+        return  new Specification<HeroEntity>() {
+            @Override
+            public Predicate toPredicate(Root<HeroEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.isNotNull(root.get(ID));
             }
         };
     }

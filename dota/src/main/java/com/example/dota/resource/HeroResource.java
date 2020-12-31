@@ -1,7 +1,6 @@
 package com.example.dota.resource;
 
 import com.example.dota.entity.CurrierEntity;
-import com.example.dota.entity.ItemEntity;
 import com.example.dota.entity.SkinEntity;
 import com.example.dota.enums.ClassTypeEnum;
 import com.example.dota.enums.FigthTypeEnum;
@@ -29,6 +28,6 @@ public class HeroResource {
     private LocalDate updateDate;
     private CurrierEntity currier;
     private List<SkinEntity> skins;
-    private List<ItemEntity> item;
+    private List<ItemResource> item;
 
 }

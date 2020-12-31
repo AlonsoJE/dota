@@ -4,7 +4,6 @@ import com.example.dota.entity.HeroEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -12,17 +11,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class SkinResource {
-
+public class CurrierResource {
 
     private Long id;
     private String name;
-    private BigDecimal price = BigDecimal.ZERO;
-    private String style;
     private String createUser;
     private LocalDate createDate;
     private String updateUser;
     private LocalDate updateDate;
+    @JsonIgnoreProperties(value = "currier")
     private HeroEntity hero;
 
 }

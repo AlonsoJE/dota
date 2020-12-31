@@ -1,11 +1,11 @@
 package com.example.dota.service;
 
+import com.example.dota.converter.CurrierConverter;
 import com.example.dota.entity.CurrierEntity;
-import com.example.dota.entity.HeroEntity;
 import com.example.dota.filter.CurrierFilter;
-import com.example.dota.filter.HeroFilter;
 import com.example.dota.repository.CurrierRepository;
-import com.example.dota.specification.HeroSpecification;
+import com.example.dota.resource.CurrierResource;
+import com.example.dota.specification.CurrierSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -19,30 +19,32 @@ public class CurrierserService {
     @Autowired
     private CurrierRepository currierRepository;
 
-    public List<CurrierEntity> findAll(){
-        return currierRepository.findAll();
+    CurrierConverter converter = new CurrierConverter();
+
+    public List<?> findAll(){
+        return converter.listToDto(currierRepository.findAll());
     }
 
-    public Object post(CurrierEntity currierEntity) {
+    public Object post(CurrierResource resource) {
 
-        return currierRepository.save(currierEntity);
+        return converter.toDto(currierRepository.save(converter.toEntity(resource)));
 
     }
 
-    public Object update(Long id, CurrierEntity currierEntity) {
+    public Object update(Long id, CurrierResource resource) {
 
         currierRepository.findById(id);
 
-        currierEntity.setId(id);
+        resource.setId(id);
 
-        return  currierRepository.save(currierEntity);
+        return  converter.toDto(currierRepository.save(converter.toEntity(resource)));
 
     }
 
 
     public Object findById(Long id) {
 
-        return currierRepository.findById(id);
+        return converter.toOptionalDto(currierRepository.findById(id));
 
     }
 
@@ -50,45 +52,41 @@ public class CurrierserService {
         currierRepository.deleteById(id);
     }
 
-    public void deleteByObject(CurrierEntity currierEntity) {
-        currierRepository.delete(currierEntity);
+    public void deleteByObject(CurrierResource resource) {
+        currierRepository.delete(converter.toEntity(resource));
     }
 
-//    public List<Object> findByFilter(CurrierFilter currierFilter) {
-//        return Collections.singletonList(currierRepository.findAll(getSpecification(currierFilter)));
-//    }
-//
-//    private Specification<HeroEntity> getSpecification(HeroFilter filter){
-//        if(filter != null){
-//            Specification<HeroEntity> specification = Specification.where((filter.getId() == null) ? null : HeroSpecification.isNotNullId());
-//
-//            specification = (filter.getId() == null) ? specification : specification.and(HeroSpecification.equalId(filter.getId()));
-//            specification = (filter.getNameHero() == null) ? specification : specification.and(HeroSpecification.likeNameHero(filter.getNameHero()));
-//            specification = (filter.getNickNameHero() == null) ? specification : specification.and(HeroSpecification.likelNickNameHero(filter.getNickNameHero()));
-//            specification = (filter.getRealName() == null) ? specification : specification.and(HeroSpecification.likeRealNameHero(filter.getRealName()));
-//            specification = (filter.getCreateUser() == null) ? specification : specification.and(HeroSpecification.likeCreateUser(filter.getCreateUser()));
-//            specification = (filter.getClassTypeEnum() == null) ? specification : specification.and(HeroSpecification.equalClassType(filter.getClassTypeEnum()));
-//            specification = (filter.getFigthTypeEnum() == null) ? specification : specification.and(HeroSpecification.equalFigthType(filter.getFigthTypeEnum()));
-//
-//
-//            if(filter.getCreateDateI() != null && filter.getCreateDateF() != null){
-//                specification = specification.and(HeroSpecification.betweenCreateDate(filter.getCreateDateI(), filter.getCreateDateF()));
-//            }else{
-//                specification = (filter.getCreateDate() == null) ? specification : specification.and(HeroSpecification.equalCreateDateLess(filter.getCreateDate()));
-//                specification = (filter.getCreateDate() == null) ? specification : specification.and(HeroSpecification.equalCreateDateGreater(filter.getCreateDate()));
-//            }
-//
-//            if(filter.getUpdateDateI() != null && filter.getUpdateDateF() != null){
-//                specification = specification.and(HeroSpecification.betweenUpdateDate(filter.getUpdateDateI(), filter.getUpdateDateF()));
-//            }else{
-//                specification = (filter.getUpdateDate() == null) ? specification : specification.and(HeroSpecification.equalUpdateDateLess(filter.getUpdateDate()));
-//                specification = (filter.getUpdateDate() == null) ? specification : specification.and(HeroSpecification.equalUpdateDateGreater(filter.getUpdateDate()));
-//            }
-//            return specification;
-//        }else{
-//            return null;
-//        }
-//    }
+    public List<?> findByFilter(CurrierFilter currierFilter) {
+        return Collections.singletonList(currierRepository.findAll(getSpecification(currierFilter)));
+    }
+
+    private Specification<CurrierEntity> getSpecification(CurrierFilter filter){
+        if(filter != null){
+            Specification<CurrierEntity> specification = Specification.where((filter.getId() == null) ? null : CurrierSpecification.isNotNullId());
+
+            specification = (filter.getId() == null) ? specification : specification.and(CurrierSpecification.equalId(filter.getId()));
+            specification = (filter.getName() == null) ? specification : specification.and(CurrierSpecification.likeCurrier(filter.getName()));
+            specification = (filter.getCreateUser() == null) ? specification : specification.and(CurrierSpecification.likeCreateUser(filter.getCreateUser()));
+            specification = (filter.getUpdateUser() == null) ? specification : specification.and(CurrierSpecification.likeUpdateUser(filter.getUpdateUser()));
+
+            if(filter.getCreateDateI() != null && filter.getCreateDateF() != null){
+                specification = specification.and(CurrierSpecification.betweenCreateDate(filter.getCreateDateI(), filter.getCreateDateF()));
+            }else{
+                specification = (filter.getCreateDate() == null) ? specification : specification.and(CurrierSpecification.equalCreateDateLess(filter.getCreateDate()));
+                specification = (filter.getCreateDate() == null) ? specification : specification.and(CurrierSpecification.equalCreateDateGreater(filter.getCreateDate()));
+            }
+
+            if(filter.getUpdateDateI() != null && filter.getUpdateDateF() != null){
+                specification = specification.and(CurrierSpecification.betweenUpdateDate(filter.getUpdateDateI(), filter.getUpdateDateF()));
+            }else{
+                specification = (filter.getUpdateDate() == null) ? specification : specification.and(CurrierSpecification.equalUpdateDateLess(filter.getUpdateDate()));
+                specification = (filter.getUpdateDate() == null) ? specification : specification.and(CurrierSpecification.equalUpdateDateGreater(filter.getUpdateDate()));
+            }
+            return specification;
+        }else{
+            return null;
+        }
+    }
 
 
 }

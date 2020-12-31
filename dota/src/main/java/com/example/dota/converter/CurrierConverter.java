@@ -1,19 +1,19 @@
 package com.example.dota.converter;
 
-import com.example.dota.entity.SkinEntity;
-import com.example.dota.resource.SkinResource;
+import com.example.dota.entity.CurrierEntity;
+import com.example.dota.resource.CurrierResource;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SkinConverter {
+public class CurrierConverter {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public SkinResource toDto(SkinEntity entity){
-        SkinResource resource = new SkinResource();
+    public CurrierResource toDto(CurrierEntity entity){
+        CurrierResource resource = new CurrierResource();
         modelMapper.map(entity, resource);
 
         if(entity != null){
@@ -23,8 +23,8 @@ public class SkinConverter {
         }
     }
 
-    public SkinEntity toEntity(SkinResource resource){
-        SkinEntity entity = new SkinEntity();
+    public CurrierEntity toEntity(CurrierResource resource){
+        CurrierEntity entity = new CurrierEntity();
         modelMapper.map(resource, entity);
 
         if(resource != null){
@@ -34,8 +34,8 @@ public class SkinConverter {
         }
     }
 
-    public List<?> listToDto(final List<SkinEntity> listParam){
-        List<SkinResource> list = new ArrayList<>();
+    public List<?> listToDto(final List<CurrierEntity> listParam){
+        List<CurrierResource> list = new ArrayList<>();
 
         listParam.forEach(a ->{
             list.add(toDto(a));
@@ -43,11 +43,11 @@ public class SkinConverter {
         return list;
     }
 
-    public Object toDto(final Optional<SkinEntity> optional){
+    public Object toDto(final Optional<CurrierEntity> optional){
         return optional.isPresent() ? toDto(optional.get()) : null;
     }
 
-    public Optional<?> toOptionalDto(final Optional<SkinEntity> optional){
+    public Optional<?> toOptionalDto(final Optional<CurrierEntity> optional){
         return Optional.ofNullable(toDto(optional));
     }
 
