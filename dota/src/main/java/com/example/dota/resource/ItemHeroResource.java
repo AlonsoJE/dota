@@ -1,5 +1,6 @@
 package com.example.dota.resource;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,7 +17,8 @@ public class ItemHeroResource {
     private String updateUser;
     private LocalDate createDate;
     private LocalDate updateDate;
-    private HeroResource heroResource;
-    private ItemResource itemResource;
+    @JsonIgnoreProperties(value = {"currier", "skin", "itemHero"})
+    private HeroResource hero;
+    private ItemResource item;
 
 }

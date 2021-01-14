@@ -4,6 +4,7 @@ import com.example.dota.entity.HeroEntity;
 import com.example.dota.enums.ClassTypeEnum;
 import com.example.dota.enums.FigthTypeEnum;
 import org.springframework.data.jpa.domain.Specification;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;

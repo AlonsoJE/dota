@@ -5,6 +5,8 @@ import com.example.dota.filter.CurrierFilter;
 import com.example.dota.resource.CurrierResource;
 import com.example.dota.service.CurrierserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,8 +25,32 @@ public class CurrierController {
     @Autowired
     private CurrierserService currierserService;
 
+
+    @GetMapping({"/jpa","jpa"})
+    public ResponseEntity<?> findJPA(){
+        return  ResponseEntity.status(HttpStatus.OK).body(currierserService.findJPA());
+    }
+
+    @GetMapping({"/native","native"})
+    public ResponseEntity<?> findNativeQuery(@RequestBody String name){
+        return  ResponseEntity.status(HttpStatus.OK).body(currierserService.findNativeQuery(name));
+    }
+
+    @GetMapping({"/hql","hql"})
+    public ResponseEntity<?> findHql(@RequestBody String name){
+        return  ResponseEntity.status(HttpStatus.OK).body(currierserService.findHql(name));
+    }
+
+    @GetMapping({"page","/page"})
+    public ResponseEntity<Page<?>> findAll(Pageable page){
+
+        Page<?> find = currierserService.findAll(page.previousOrFirst());
+
+        return ResponseEntity.ok(find);
+    }
+
     @GetMapping({"","/"})
-    public ResponseEntity<List<?>> findAll(){
+    public ResponseEntity<?> findAll(){
 
         List<?> find = currierserService.findAll();
 
@@ -42,6 +68,16 @@ public class CurrierController {
         verifyFilter(filter);
 
         List<?> filtered = currierserService.findByFilter(filter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(filtered);
+    }
+
+    @GetMapping({"filterPage","/filterPage"})
+    public ResponseEntity<Object> findByFilter(@RequestBody CurrierFilter filter, Pageable page){
+
+        verifyFilter(filter);
+
+        Page<?> filtered = currierserService.findByFilter(filter, page);
 
         return ResponseEntity.status(HttpStatus.OK).body(filtered);
     }

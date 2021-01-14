@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -58,7 +57,8 @@ public class ItemHeroService {
 
 
     public List<?> findByFilter(ItemHeroFilter filter) {
-        return Collections.singletonList(repository.findAll(getSpecification(filter)));
+//        return Collections.singletonList(repository.findAll(getSpecification(filter)));
+        return converter.listToDto(repository.findAll(getSpecification(filter)));
     }
 
     private Specification<ItemHero> getSpecification(ItemHeroFilter filter){
@@ -68,6 +68,7 @@ public class ItemHeroService {
             specification = (filter.getId() == null) ? specification : specification.and(ItemHeroSpecification.equalId(filter.getId()));
             specification = (filter.getCreateUser() == null) ? specification : specification.and(ItemHeroSpecification.likeCreateUser(filter.getCreateUser()));
             specification = (filter.getUpdateUser() == null) ? specification : specification.and(ItemHeroSpecification.likeUpdateUser(filter.getUpdateUser()));
+            specification = (filter.getHero() == null) ? specification : specification.and(ItemHeroSpecification.likeHero(filter.getHero()));
 
 
             if(filter.getCreateDateI() != null && filter.getCreateDateF() != null){

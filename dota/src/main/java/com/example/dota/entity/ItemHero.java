@@ -1,6 +1,5 @@
 package com.example.dota.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,11 +33,11 @@ public class ItemHero {
 
     @ManyToOne(targetEntity = HeroEntity.class)
     @JoinColumn(name = "hero_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_HERO_ITEMHERO"))
-    @JsonBackReference
-    private HeroEntity heroEntity;
+//    @JsonBackReference
+    private HeroEntity hero;
 
     @ManyToOne(targetEntity = ItemEntity.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_ITEM_ITEMHERO"))
-    @JsonBackReference
-    private ItemEntity itemEntity;
+//    @JsonBackReference
+    private ItemEntity item;
 }

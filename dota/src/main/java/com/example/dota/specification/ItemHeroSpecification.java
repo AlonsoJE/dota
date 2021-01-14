@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class ItemHeroSpecification {
 
     private static final String ID = "id";
+    private static final String HERO = "hero";
     private static final String CREATEUSER = "createUser";
     private static final String UPDATEUSER = "updateUser";
     private static final String CREATEDATE = "createDate";
@@ -31,6 +32,15 @@ public class ItemHeroSpecification {
             @Override
             public Predicate toPredicate(Root<ItemHero> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.isNotNull(root.get(ID));
+            }
+        };
+    }
+
+    public static Specification<ItemHero> likeHero(Long hero){
+        return new Specification<ItemHero>() {
+            @Override
+            public Predicate toPredicate(Root<ItemHero> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get(HERO), hero);
             }
         };
     }

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class ItemHeroFilter {
 
     private Long id;
+    private Long hero;
     private String createUser;
     private LocalDate createDate;
     private LocalDate createDateI;

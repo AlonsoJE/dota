@@ -3,6 +3,7 @@ package com.example.dota.converter;
 import com.example.dota.entity.CurrierEntity;
 import com.example.dota.resource.CurrierResource;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,4 +52,7 @@ public class CurrierConverter {
         return Optional.ofNullable(toDto(optional));
     }
 
+    public Page<?> toPageable(Page<CurrierEntity> list){
+        return list.map(CurrierEntity -> toDto(CurrierEntity));
+    }
 }

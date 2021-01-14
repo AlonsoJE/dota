@@ -7,10 +7,11 @@ import com.example.dota.repository.CurrierRepository;
 import com.example.dota.resource.CurrierResource;
 import com.example.dota.specification.CurrierSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,8 +22,44 @@ public class CurrierserService {
 
     CurrierConverter converter = new CurrierConverter();
 
+    // ↓ BUSINESS RULES ↓
+
+    //↓ BASIC METHODS ↓
+
+    // uso de consulta JPA escrita na interface repository
+    public Object findJPA(){
+        return converter.toDto(currierRepository.findTopByOrderByIdDesc());
+    }
+
+    // uso de consulta com Query  Nativa em SQL puro
+    public List<?> findNativeQuery(String name){
+        return converter.listToDto(currierRepository.nativeQuery(name));
+    }
+
+    // uso de consulta HQL
+    public List<?> findHql(String name){
+        return converter.listToDto(currierRepository.hql(name));
+    }
+
+    public Page<?> findAll(Pageable page){
+        return converter.toPageable(currierRepository.findAll(page));
+    }
     public List<?> findAll(){
         return converter.listToDto(currierRepository.findAll());
+    }
+
+    public Object findById(Long id) {
+
+        return converter.toOptionalDto(currierRepository.findById(id));
+
+    }
+
+    public Page<?> findByFilter(CurrierFilter currierFilter, Pageable page) {
+        return converter.toPageable(currierRepository.findAll(getSpecification(currierFilter), page));
+    }
+
+    public List<?> findByFilter(CurrierFilter currierFilter) {
+        return converter.listToDto(currierRepository.findAll(getSpecification(currierFilter)));
     }
 
     public Object post(CurrierResource resource) {
@@ -41,13 +78,6 @@ public class CurrierserService {
 
     }
 
-
-    public Object findById(Long id) {
-
-        return converter.toOptionalDto(currierRepository.findById(id));
-
-    }
-
     public void delete(Long id) {
         currierRepository.deleteById(id);
     }
@@ -56,9 +86,6 @@ public class CurrierserService {
         currierRepository.delete(converter.toEntity(resource));
     }
 
-    public List<?> findByFilter(CurrierFilter currierFilter) {
-        return Collections.singletonList(currierRepository.findAll(getSpecification(currierFilter)));
-    }
 
     private Specification<CurrierEntity> getSpecification(CurrierFilter filter){
         if(filter != null){

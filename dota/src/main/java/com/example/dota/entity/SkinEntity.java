@@ -1,9 +1,5 @@
 package com.example.dota.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,9 +41,8 @@ public class SkinEntity {
     @Column(name = "update_date", nullable = true, insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @JsonIgnore
-    @ManyToOne(targetEntity = HeroEntity.class)
-    @JoinColumn(name = "hero_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_HERO_SKIN"))
+    @ManyToOne(targetEntity = HeroEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "skin_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_SKIN_HERO"))
     private HeroEntity hero;
 
 

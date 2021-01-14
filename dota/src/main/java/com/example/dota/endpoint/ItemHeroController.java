@@ -37,7 +37,7 @@ public class ItemHeroController {
     }
 
     @GetMapping({"filter","/filter"})
-    public ResponseEntity<Object> findByFilter(@RequestBody ItemHeroFilter filter){
+    public ResponseEntity<?> findByFilter(@RequestBody ItemHeroFilter filter){
 
         verifyFilter(filter);
 

@@ -1,6 +1,5 @@
 package com.example.dota.filter;
 
-import com.example.dota.entity.HeroEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

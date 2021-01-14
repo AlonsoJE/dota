@@ -43,7 +43,7 @@ public class HeroConverter {
         return list;
     }
 
-    public Object toDto(final Optional<HeroEntity> optional){
+    public HeroResource toDto(final Optional<HeroEntity> optional){
         return optional.isPresent() ? toDto(optional.get()) : null;
     }
 

@@ -1,7 +1,5 @@
 package com.example.dota.resource;
 
-import com.example.dota.entity.HeroEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -11,7 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class CurrierResource {
+public class CurrierResource{
 
     private Long id;
     private String name;
@@ -19,7 +17,7 @@ public class CurrierResource {
     private LocalDate createDate;
     private String updateUser;
     private LocalDate updateDate;
-    @JsonIgnoreProperties(value = "currier")
-    private HeroEntity hero;
+//    @JsonIgnoreProperties(value = "currier")
+//    private HeroEntity hero;
 
 }

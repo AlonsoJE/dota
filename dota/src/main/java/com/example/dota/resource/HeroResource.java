@@ -1,9 +1,8 @@
 package com.example.dota.resource;
 
-import com.example.dota.entity.CurrierEntity;
-import com.example.dota.entity.SkinEntity;
 import com.example.dota.enums.ClassTypeEnum;
 import com.example.dota.enums.FigthTypeEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -26,8 +25,10 @@ public class HeroResource {
     private String updateUser;
     private LocalDate createDate;
     private LocalDate updateDate;
-    private CurrierEntity currier;
-    private List<SkinEntity> skins;
-    private List<ItemResource> item;
+    private CurrierResource currier;
+    @JsonIgnoreProperties(value = "hero")
+    private List<SkinResource> skin;
+    @JsonIgnoreProperties(value = "hero")
+    private List<ItemHeroResource> itemHero;
 
 }

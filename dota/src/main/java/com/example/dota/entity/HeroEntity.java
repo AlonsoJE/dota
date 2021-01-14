@@ -2,10 +2,6 @@ package com.example.dota.entity;
 
 import com.example.dota.enums.ClassTypeEnum;
 import com.example.dota.enums.FigthTypeEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -55,18 +51,18 @@ public class HeroEntity {
     @Column(name = "update_date", insertable = false, updatable = true)
     private LocalDate updateDate;
 
-    @JsonIgnore
-    @OneToOne(targetEntity = CurrierEntity.class)
+    //    @JsonIgnore
+    @OneToOne(targetEntity = CurrierEntity.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "currier_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CURRIER_HERO"))
     private CurrierEntity currier;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL,targetEntity = SkinEntity.class,fetch = FetchType.LAZY)
-    private List<SkinEntity> skins;
+    //    @JsonIgnore
+    @OneToMany(mappedBy = "hero",targetEntity = SkinEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SkinEntity> skin;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "heroEntity", targetEntity = ItemHero.class, cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
-    private List<ItemHero> itemHeroes;
+//    @JsonIgnore
+    @OneToMany(mappedBy = "hero", targetEntity = ItemHero.class, cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    private List<ItemHero> item;
 
 
 }

@@ -4,7 +4,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,5 +27,5 @@ public class ItemResource {
     private LocalDate createDate;
     private String updateUser;
     private LocalDate updateDate;
-    private List<ItemHeroResource> itemHeroResources;
+//    private List<ItemHeroResource> itemHero;
 }

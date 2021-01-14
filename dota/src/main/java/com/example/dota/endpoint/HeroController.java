@@ -23,6 +23,15 @@ public class HeroController {
     @Autowired
     private HeroService heroService;
 
+    // ↓ BUSINESS RULES ↓
+
+    @GetMapping({"{id}/stats","/{id}/stats"})
+    public ResponseEntity<?> verifyStatsHero(@PathVariable(name = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(heroService.verifyAllStats(id, heroService.findById(id)));
+    }
+
+    //↓ BASIC METHODS ↓
+
     @GetMapping({"","/"})
     public ResponseEntity<List<?>> findAll(){
 
