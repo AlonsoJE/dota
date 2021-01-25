@@ -4,6 +4,8 @@ import com.example.dota.exception.BadRequestException;
 import com.example.dota.filter.HeroFilter;
 import com.example.dota.resource.HeroResource;
 import com.example.dota.service.HeroService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import java.util.List;
 @RequestMapping("/hero")
 public class HeroController {
 
+    private static final Logger LOGGER = LogManager.getLogger(HeroController.class);
+
     UriBuilder uriBuilder;
 
     @Autowired
@@ -27,6 +31,11 @@ public class HeroController {
 
     @GetMapping({"{id}/stats","/{id}/stats"})
     public ResponseEntity<?> verifyStatsHero(@PathVariable(name = "id") Long id){
+        LOGGER.trace("teste");
+        LOGGER.info("teste");
+        LOGGER.warn("teste");
+        LOGGER.error("teste");
+        LOGGER.fatal("teste");
         return ResponseEntity.status(HttpStatus.OK).body(heroService.verifyAllStats(id, heroService.findById(id)));
     }
 
