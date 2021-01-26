@@ -31,3 +31,10 @@ var:
     unsupportedMediaType: "Tipo de media não suportado."
     tooManyRequests: "Muitas requisições amigo, não aguentei."
     internalServerError: "Se chegou aqui é porque fudeu."
+  path:
+  util:
+    my-mail: "zeckdevtests@hotmail.com"
+    my-pass: "#MerciaDelicinha@"
+    jsonFormat: "json"
+  url:
+    viacep: "https://viacep.com.br/ws/"
