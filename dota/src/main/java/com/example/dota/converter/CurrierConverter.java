@@ -2,12 +2,22 @@ package com.example.dota.converter;
 
 import com.example.dota.entity.CurrierEntity;
 import com.example.dota.resource.CurrierResource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * Classe conversora entre CurrierEntity e CurrierResource.
+ *
+ * @author zeck
+ * @version 1
+ * @since 31/01/2021
+ */
 
 public class CurrierConverter {
 

@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe conversora entre SkinEntity e SkinResource.
+ *
+ * @author zeck
+ * @version 1
+ * @since 31/01/2021
+ */
+
 public class SkinConverter {
 
     private ModelMapper modelMapper = new ModelMapper();

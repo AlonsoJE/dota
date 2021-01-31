@@ -13,7 +13,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -28,7 +27,34 @@ public class HeroService {
 
     // ↓ BUSINESS RULES ↓
 
+    // -> Soma entre dois valores, usando interface funcional BINARY OPERATOR
     BinaryOperator<Integer> soma = (v1, v2) -> {return v1 + v2;};
+
+
+    // -> Agendamento de tarefa
+
+    //utilizando SCHEDULED e CRON para uma vez por minuto todos os dias
+    // SEGUNDO MINUTO HORA DIA MES DIA_DA_SEMANA
+//    @Scheduled(cron = "0 0/1 * * * *")
+//    public void testeScheduled(){
+//        System.out.println("SCHEDULDEND FUNCIONANDO!");
+//    }
+
+
+    //utilizando timerTask
+//    public void scheduler(Long segundos, Long minutos, Long horas){
+//
+//        Timer timer = new Timer();
+//
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("teste");
+//            }
+//        }, 1000L, 1000L * segundos * minutos * horas);
+//    }
+
+
 
     public StatsItemResource verifyAllStats(Long id, HeroResource hero){
 
@@ -113,6 +139,7 @@ public class HeroService {
 //    }
 
     //↓ BASIC METHODS ↓
+
 
     public List<?> findAll(){
 

@@ -16,6 +16,14 @@ import org.springframework.web.util.UriBuilder;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Endpoint de acesso das requisicoes referents aos servicos relacionados a Hero.
+ *
+ * @author zeck
+ * @version 1
+ * @since 31/01/2021
+ */
+
 @RestController
 @RequestMapping("/hero")
 public class HeroController {
@@ -27,22 +35,16 @@ public class HeroController {
     @Autowired
     private HeroService heroService;
 
-    // ↓ BUSINESS RULES ↓
-
     @GetMapping({"{id}/stats","/{id}/stats"})
     public ResponseEntity<?> verifyStatsHero(@PathVariable(name = "id") Long id){
-        LOGGER.trace("teste");
-        LOGGER.info("teste");
-        LOGGER.warn("teste");
-        LOGGER.error("teste");
-        LOGGER.fatal("teste");
+        LOGGER.info("Class ConssumeApiController : Method verifyStatsHero() -> START");
         return ResponseEntity.status(HttpStatus.OK).body(heroService.verifyAllStats(id, heroService.findById(id)));
     }
 
-    //↓ BASIC METHODS ↓
 
     @GetMapping({"","/"})
     public ResponseEntity<List<?>> findAll(){
+        LOGGER.info("Class ConssumeApiController : Method findAll() -> START");
 
         List<?> find = heroService.findAll();
 
@@ -51,11 +53,13 @@ public class HeroController {
 
     @GetMapping({"{id}","/{id}"})
     public ResponseEntity<?> findById(@PathVariable(name = "id") Long  id){
+        LOGGER.info("Class ConssumeApiController : Method findById() -> START");
         return  ResponseEntity.status(HttpStatus.OK).body(heroService.findById(id));
     }
 
     @GetMapping({"filter","/filter"})
     public ResponseEntity<?> findByFilter(@RequestBody HeroFilter heroFilter){
+        LOGGER.info("Class ConssumeApiController : Method findByFilter() -> START");
 
         verifyFilter(heroFilter);
 
@@ -66,28 +70,33 @@ public class HeroController {
 
     @PostMapping({"",""})
     public ResponseEntity<?> save(@Validated @RequestBody HeroResource resource){
+        LOGGER.info("Class ConssumeApiController : Method save() -> START");
 
         return  ResponseEntity.created(URI.create("")).body(heroService.post(resource));
     }
 
     @PutMapping({"{id}","/{id}"})
     public  ResponseEntity<?> update(@Validated @PathVariable(name = "id") Long id, @RequestBody HeroResource resource){
+        LOGGER.info("Class ConssumeApiController : Method update() -> START");
         return ResponseEntity.status(HttpStatus.OK).body(heroService.update(id, resource));
     }
 
     @DeleteMapping({"{id}","/{id}"})
     public ResponseEntity delete(@PathVariable(name = "id") Long id){
+        LOGGER.info("Class ConssumeApiController : Method delete() -> START");
         heroService.delete(id);
         return   ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping({"","/"})
     public ResponseEntity deleteObject(@RequestBody HeroResource resource){
+        LOGGER.info("Class ConssumeApiController : Method deleteObject() -> START");
         heroService.deleteByObject(resource);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     private void verifyFilter(@RequestBody HeroFilter heroFilter) {
+        LOGGER.info("Class ConssumeApiController : Method verifyFilter() -> START");
         if(heroFilter == null || heroFilter.equals(null)){
             throw  new BadRequestException();
         }
