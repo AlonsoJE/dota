@@ -1,5 +1,7 @@
 package com.example.dota.endpoint;
 
+import com.example.dota.fileExcel.FileExcelPOI;
+import com.example.dota.fileJson.GsonTest;
 import com.example.dota.filesIO.DirectoryTest;
 import com.example.dota.filesIO.FileTest;
 import com.example.dota.filesIO.StreamTest;
@@ -23,6 +25,12 @@ public class FilesController {
 
     @Autowired
     StreamTest streamTest;
+
+    @Autowired
+    FileExcelPOI fileExcelPOI;
+
+    @Autowired
+    GsonTest gsonTest;
 
     @GetMapping({"txtWrite","/txtWrite"})
     public void escreverArquivoBasico(@RequestBody String texto) throws IOException {
@@ -62,6 +70,26 @@ public class FilesController {
     @GetMapping({"outputBufferedStream","/outputBufferedStream"})
     public void outputBufferedStream()  {
         streamTest.outputBufferedStream();
+    }
+
+    @GetMapping({"excelRead","/excelRead"})
+    public void excelRead()  {
+        fileExcelPOI.lerExcelExistenteComTipos();
+    }
+
+    @GetMapping({"excelWrite","/excelWrite"})
+    public void excelWrite()  {
+        fileExcelPOI.escreverExcel();
+    }
+
+    @GetMapping({"jsonRead","/jsonRead"})
+    public void jsonlRead()  {
+        gsonTest.readJson();
+    }
+
+    @GetMapping({"jsonWrite","/jsonWrite"})
+    public void jsonWrite()  {
+        gsonTest.writeJson();
     }
 
 
