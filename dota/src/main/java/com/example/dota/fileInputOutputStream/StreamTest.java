@@ -1,4 +1,4 @@
-package com.example.dota.filesIO;
+package com.example.dota.fileInputOutputStream;
 
 import lombok.Cleanup;
 import org.springframework.stereotype.Service;

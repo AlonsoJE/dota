@@ -1,6 +1,8 @@
-package com.example.dota.fileJson;
+package com.example.dota.fileXml;
 
-import com.google.gson.Gson;
+import com.example.dota.fileJson.CidadeResourceJson;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import lombok.Cleanup;
 import org.springframework.stereotype.Service;
 
@@ -9,29 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GsonTest {
+public class XstreamTest {
 
-    Gson gson;
 
-    public void readJson() {
-        gson = new Gson();
 
+    public void readXml() {
         try {
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(new File("D:\\fileXml\\filwXmlRead.xml")));
 
-             InputStream inputStream = new BufferedInputStream(new FileInputStream("D:\\fileJson\\fileJson.json"));
+            XStream xStream = new XStream(new DomDriver());
 
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            XmlTestResource xmlTestResource = (XmlTestResource)xStream.fromXML(inputStream);
 
-            JsonTestResource jsonTestResource = gson.fromJson(bufferedReader, JsonTestResource.class);
+            System.out.println(xmlTestResource);
 
-
-            System.out.println(jsonTestResource.getCidade().getNome());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeJson(){
+    public void writXml(){
+
         List<String> lista = new ArrayList<>();
         lista.add("teste1");
         lista.add("teste2");
@@ -40,31 +40,30 @@ public class GsonTest {
                 .nome("Tanabi")
                 .estado("Sao Paulo")
                 .build();
-        JsonTestResource jsonTestResource = JsonTestResource.builder()
+
+        XmlTestResource xmlTestResource = XmlTestResource.builder()
                 .cidade(cidadeResourceJson)
                 .nome("Alonso")
                 .idade(26)
                 .lista(lista)
                 .build();
 
-        gson = new Gson();
-
-        String json = gson.toJson(jsonTestResource);
+        XStream xStream = new XStream(new DomDriver());
 
         try {
-            @Cleanup OutputStream outputStream = new FileOutputStream(new File("D:\\fileJson\\fileJsonWritter.json"));
+            @Cleanup OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File("D:\\fileXml\\filwXmlWritte.xml")));
 
-            outputStream.write(json.getBytes());
+            outputStream.write(xStream.toXML(xmlTestResource).getBytes());
 
             outputStream.flush();
             outputStream.close();
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }

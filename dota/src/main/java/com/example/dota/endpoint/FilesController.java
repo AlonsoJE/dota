@@ -2,9 +2,10 @@ package com.example.dota.endpoint;
 
 import com.example.dota.fileExcel.FileExcelPOI;
 import com.example.dota.fileJson.GsonTest;
+import com.example.dota.fileXml.XstreamTest;
 import com.example.dota.filesIO.DirectoryTest;
 import com.example.dota.filesIO.FileTest;
-import com.example.dota.filesIO.StreamTest;
+import com.example.dota.fileInputOutputStream.StreamTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,9 @@ public class FilesController {
 
     @Autowired
     GsonTest gsonTest;
+
+    @Autowired
+    XstreamTest xstreamTest;
 
     @GetMapping({"txtWrite","/txtWrite"})
     public void escreverArquivoBasico(@RequestBody String texto) throws IOException {
@@ -90,6 +94,16 @@ public class FilesController {
     @GetMapping({"jsonWrite","/jsonWrite"})
     public void jsonWrite()  {
         gsonTest.writeJson();
+    }
+
+    @GetMapping({"xmlRead","/xmlRead"})
+    public void xmlRead()  {
+        xstreamTest.readXml();
+    }
+
+    @GetMapping({"xmlWrite","/xmlWrite"})
+    public void xmlWrite()  {
+        xstreamTest.writXml();
     }
 
 
