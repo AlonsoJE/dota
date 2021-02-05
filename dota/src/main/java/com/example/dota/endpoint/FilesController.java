@@ -1,16 +1,19 @@
 package com.example.dota.endpoint;
 
+import com.example.dota.fileBase64.FileBase64Teste;
+import com.example.dota.fileBase64.PersistindoBlobBase64;
 import com.example.dota.fileExcel.FileExcelPOI;
+import com.example.dota.fileInputOutputStream.StreamTest;
 import com.example.dota.fileJson.GsonTest;
+import com.example.dota.fileManipulacaoGeralDeArquivos.ManipulandoQualquerArquivo;
+import com.example.dota.fileManipulacaoGeralDeArquivos.ManipulandoQualquerArquivoNIO;
 import com.example.dota.fileXml.XstreamTest;
 import com.example.dota.filesIO.DirectoryTest;
 import com.example.dota.filesIO.FileTest;
-import com.example.dota.fileInputOutputStream.StreamTest;
+import com.example.dota.filesNIO.FileNIOTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -35,6 +38,21 @@ public class FilesController {
 
     @Autowired
     XstreamTest xstreamTest;
+
+    @Autowired
+    ManipulandoQualquerArquivo manipulandoQualquerArquivo;
+
+    @Autowired
+    FileNIOTest fileNIOTest;
+
+    @Autowired
+    ManipulandoQualquerArquivoNIO manipulandoQualquerArquivoNIO;
+
+    @Autowired
+    FileBase64Teste fileBase64Teste;
+
+    @Autowired
+    PersistindoBlobBase64 persistindoBlobBase64;
 
     @GetMapping({"txtWrite","/txtWrite"})
     public void escreverArquivoBasico(@RequestBody String texto) throws IOException {
@@ -106,5 +124,59 @@ public class FilesController {
         xstreamTest.writXml();
     }
 
+    @GetMapping({"pdfTeste","/pdfTeste"})
+    public void pdfTeste()  {
+        manipulandoQualquerArquivo.receberArquivoDevolvendoArquivo();
+    }
+
+    @PostMapping({"jpgTeste","/jpgTeste"})
+    public void jpgTeste(@RequestParam MultipartFile multipartFile)  {
+        manipulandoQualquerArquivo.receberMultiPartFileDevolvendoArquivo(multipartFile);
+    }
+
+    @GetMapping({"nioCreateDirectory","/nioCreateDirectory"})
+    public void nioCreateDirecotry()  {
+        fileNIOTest.criandoDiretorio();
+    }
+
+    @GetMapping({"nioCreateFile","/nioCreateFile"})
+    public void nioCreateFile()  {
+        fileNIOTest.criandoArquivo();
+    }
+
+    @GetMapping({"nioCopyFile","/nioCopyFile"})
+    public void nioCopyFile()  {
+        fileNIOTest.copiarArquivo();
+    }
+
+    @GetMapping({"nioDeleteFile","/nioDeleteFile"})
+    public void nioDeleteFile()  {
+        fileNIOTest.deleteArquivo();
+    }
+
+    @GetMapping({"criadorNioTeste","/criadorNioTeste"})
+    public void criadorNioTeste()  {
+        manipulandoQualquerArquivoNIO.receberArquivoDevolvendoArquivo();
+    }
+
+    @PostMapping({"criadorNioTesteM","/criadorNioTesteM"})
+    public void criadorNioTeste(@RequestParam MultipartFile multipartFile) {
+        manipulandoQualquerArquivoNIO.receberMultiPartFileDevolvendoArquivo(multipartFile);
+    }
+
+    @PostMapping({"base64Test","/base64Test"})
+    public void base64Test(@RequestParam MultipartFile multipartFile) {
+        fileBase64Teste.fromBase64(multipartFile);
+    }
+
+    @PostMapping({"persistindoBlob","/persistindoBlob"})
+    public void persistindoBlob(@RequestParam MultipartFile multipartFile) {
+        persistindoBlobBase64.saveBlob(multipartFile);
+    }
+
+    @GetMapping({"findBlob","/findBlob"})
+    public void findBlob() {
+        persistindoBlobBase64.findBlob();
+    }
 
 }
