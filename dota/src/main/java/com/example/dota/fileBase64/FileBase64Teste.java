@@ -27,6 +27,13 @@ public class FileBase64Teste {
         }
     }
 
+    // Gerando base 64 a partir de bytes
+    public String toBase64(byte[] teste){
+
+        return Base64.getEncoder().encodeToString(teste);
+
+    }
+
     // Gerando algo a partir de base 64
     public void fromBase64(MultipartFile multipartFile){
 

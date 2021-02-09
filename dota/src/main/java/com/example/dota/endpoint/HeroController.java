@@ -62,10 +62,7 @@ public class HeroController {
         LOGGER.info("Class ConssumeApiController : Method findByFilter() -> START");
 
         verifyFilter(heroFilter);
-
-        List<?> filtered = heroService.findByFilter(heroFilter);
-
-        return ResponseEntity.status(HttpStatus.OK).body(filtered);
+        return ResponseEntity.status(HttpStatus.OK).body(heroService.findByFilter(heroFilter));
     }
 
     @PostMapping({"",""})
