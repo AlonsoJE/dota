@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +30,18 @@ public class SendMailController {
 
     @GetMapping({"send","/send"})
     public ResponseEntity<?> sendSimpleMail(@RequestBody StatsMail statsMail){
-        LOGGER.info("Class ConssumeApiController : Method verifyStatsHero() -> START");
+        LOGGER.info("Class SendMailController : Method sendSimpleMail() -> START");
 
         sendMailService.sendSimpleMail(statsMail);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping({"sendAppend","/sendAppend"})
+    public ResponseEntity<?> sendAppendMail(@RequestBody StatsMail statsMail){
+        LOGGER.info("Class SendMailController : Method sendSimpleMail() -> START");
+
+        sendMailService.sendAppendMail(statsMail);
 
         return ResponseEntity.ok().build();
     }

@@ -12,10 +12,13 @@ public class SendMailService {
     MailConfig mailConfig;
 
     public void sendSimpleMail(StatsMail statsMail){
-        mailConfig.sendMail(statsMail.getDestiny(), statsMail.getSubject(), statsMail.getMessageBody());
+        mailConfig.simpleMail(statsMail.getDestiny(), statsMail.getSubject(), statsMail.getMessageBody());
     }
 
-    public void sendAppendMail(){
+    public void sendAppendMail(StatsMail statsMail){
+        String path = "D:\\jasper\\htmlFiles\\report.pdf";
+
+        mailConfig.appendMail(statsMail.getDestiny(), statsMail.getSubject(), statsMail.getMessageBody(), "TesteDescricao",path);
 
     }
 }

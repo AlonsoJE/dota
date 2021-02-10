@@ -33,7 +33,8 @@ var:
     internalServerError: "Se chegou aqui é porque fudeu."
   path:
   util:
-    my-mail: "zeckdevtests@hotmail.com"
+#    my-mail: "zeckdevtests@hotmail.com"
+    my-mail: "zeckdevtests@gmail.com"
     my-pass: "#MerciaDelicinha@"
     jsonFormat: "json"
   url:
